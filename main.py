@@ -2,7 +2,6 @@ import torch
 import os
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 import seaborn as sns
 from pylab import rcParams
 import matplotlib.pyplot as plt
