@@ -1,6 +1,6 @@
 
 import torch
-from torch import nn, optim
+from torch import nn
 
 class CryptoPredictor(nn.Module):
 

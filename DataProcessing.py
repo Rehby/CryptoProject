@@ -1,10 +1,12 @@
 import datetime
-
+from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import pandas as pd
 
 import pandas_datareader.data as pdr
 import time
+
+import torch
 import yfinance as fix
 fix.pdr_override()
 
@@ -51,7 +53,7 @@ def get_data(ticker):
 
     return  daily_price, total_price
 
-get_data("BTC-USD")
+
 def create_sequences(data, seq_length):
     xs = []
     ys = []
@@ -63,3 +65,13 @@ def create_sequences(data, seq_length):
         ys.append(y)
 
     return np.array(xs), np.array(ys)
+
+def secData(daily_price,seq_length):
+   scaler = MinMaxScaler()
+   scaler = scaler.fit(np.expand_dims(daily_price, axis=1))
+   all_data = scaler.transform(np.expand_dims(daily_price, axis=1))
+   X_all, y_all = create_sequences(all_data, seq_length)
+
+   X_all = torch.from_numpy(X_all).float()
+   y_all = torch.from_numpy(y_all).float()
+   return  X_all,y_all,scaler
