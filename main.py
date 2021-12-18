@@ -6,7 +6,7 @@ from pylab import rcParams
 import matplotlib.pyplot as plt
 from pandas.plotting import register_matplotlib_converters
 
-from Train import train_model,preds, DAYS_TO_PREDICT, seq_length, scaler ,daily_price
+from Train import preds, DAYS_TO_PREDICT, scaler ,daily_price,total_price
 
 
 
@@ -32,7 +32,7 @@ predicted_cases = scaler.inverse_transform(
   np.expand_dims(preds, axis=0)
 ).flatten()
 predicted_index = pd.date_range(
-  start=daily_price.index[-1],
+  start=total_price.index[-1],
   periods=DAYS_TO_PREDICT + 1,
   closed='right'
 )
@@ -43,7 +43,7 @@ predicted_cases = pd.Series(
 )
 
 print( predicted_cases)
-plt.plot(daily_price, label='Historical Daily Cases')
+plt.plot(total_price, label='Historical Daily Cases')
 plt.plot(predicted_cases, label='Predicted Daily Cases')
 
 plt.figlegend()

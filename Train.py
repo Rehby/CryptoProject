@@ -12,7 +12,7 @@ DAYS_TO_PREDICT=12
 num_epochs = 60
 seq_length = 12
 
-daily_price=get_data("BTC-USD")
+daily_price,total_price=get_data("BTC-USD")
 
 scaler = MinMaxScaler()
 scaler = scaler.fit(np.expand_dims(daily_price, axis=1))

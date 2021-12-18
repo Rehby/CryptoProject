@@ -38,15 +38,20 @@ def get_stock_data(ticker) :
     stock_data.to_csv(f"data/{ticker}.csv")
 
 
-get_stock_data("BTC-USD")
-def get_data(crypt):
-    df = pd.read_csv(f"data/{crypt}.csv")
 
+def get_data(ticker):
+    df = pd.read_csv(f"data/{ticker}.csv")
+    total_price = df["Close"]
+    total_price.index = pd.to_datetime(df["Date"])
+    dt=datetime.datetime.now()
+    dt = dt.replace(year=dt.year - 1)
+    df= df[(pd.to_datetime(df["Date"]) > dt.strftime("%m-%d-%Y"))]
     daily_price = df["Close"]
     daily_price.index = pd.to_datetime(df["Date"])
-    return  daily_price
 
+    return  daily_price, total_price
 
+get_data("BTC-USD")
 def create_sequences(data, seq_length):
     xs = []
     ys = []
