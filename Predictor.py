@@ -35,3 +35,6 @@ class CryptoPredictor(nn.Module):
       lstm_out.view(self.seq_len, len(sequences), self.n_hidden)[-1]
     y_pred = self.linear(last_time_step)
     return y_pred
+
+
+
