@@ -1,3 +1,6 @@
+import datetime
+from datetime import date
+
 import torch
 import numpy as np
 import pandas as pd
@@ -9,6 +12,12 @@ from pandas.plotting import register_matplotlib_converters
 from Predictor import CryptoPredictor
 from Train import train_model
 
+
+from plotly import graph_objs as go
+import plotly
+
+import plotly.tools as tls
+import streamlit as st
 
 
 sns.set(style='whitegrid', palette='muted', font_scale=1.2)
@@ -23,10 +32,26 @@ register_matplotlib_converters()
 RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)
 torch.manual_seed(RANDOM_SEED)
-DAYS_TO_PREDICT=12
-num_epochs = 60
-seq_length = 12
+
+num_epochs = 1
+seq_length = 8
+
+
+
+
 ticker="BTC-USD"
+
+stocks = ('LTC-USD', 'BNB-USD', 'DOGE-USD', 'XRP-USD', 'BTC-USD', 'ETH-USD', "AAPL")
+TODAY = date.today().strftime("%Y-%m-%d")
+
+st.sidebar.title('Предсказание цены акций')
+
+form = st.sidebar.form(key='my_form')
+ticker = form.selectbox('Выберите пару криптовалюты для предсказания', stocks)
+DAYS_TO_PREDICT=form.slider('Период предсказания: ', 1, 365)
+submit_button = form.form_submit_button(label='Рассчитать')
+
+
 
 model = CryptoPredictor(
   n_features=1,
@@ -38,7 +63,8 @@ model, trn, tst,preds,total_price,scaler = train_model(
   model,
   num_epochs,
   seq_length,
-  ticker
+  ticker,
+  DAYS_TO_PREDICT
 )
 
 
@@ -60,8 +86,14 @@ print( predicted_cases)
 plt.plot(total_price, label='Historical Daily Cases')
 plt.plot(predicted_cases, label='Predicted Daily Cases')
 
+
+
+
 plt.figlegend()
-plt.show()
+st.pyplot(plt)
+st.write(predicted_cases)
+
+
 
 
 

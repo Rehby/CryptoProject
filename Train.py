@@ -7,7 +7,7 @@ from  DataProcessing import  get_data, secData
 
 
 
-DAYS_TO_PREDICT=12
+
 preds = []
 
 
@@ -15,7 +15,8 @@ def train_model(
         model,
         num_epochs=None,
         seq_length=12,
-        ticker=""
+        ticker="",
+        DAYS_TO_PREDICT=1
 
 ):
     daily_price, total_price = get_data(ticker)
