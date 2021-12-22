@@ -33,25 +33,23 @@ RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)
 torch.manual_seed(RANDOM_SEED)
 
-num_epochs = 1
-seq_length = 8
+num_epochs = 60
+seq_length = 64
 
 
 
 
 ticker="BTC-USD"
 
-stocks = ('LTC-USD', 'BNB-USD', 'DOGE-USD', 'XRP-USD', 'BTC-USD', 'ETH-USD', "AAPL")
+stocks = ('BTC-USD', 'LTC-USD', 'BNB-USD', 'DOGE-USD', 'XRP-USD',  'ETH-USD', "AAPL")
 TODAY = date.today().strftime("%Y-%m-%d")
 
 st.sidebar.title('Предсказание цены акций')
 
 form = st.sidebar.form(key='my_form')
 ticker = form.selectbox('Выберите пару криптовалюты для предсказания', stocks)
-DAYS_TO_PREDICT=form.slider('Период предсказания: ', 1, 365)
+DAYS_TO_PREDICT=form.slider('Период предсказания: ', 15, 30)
 submit_button = form.form_submit_button(label='Рассчитать')
-
-
 
 model = CryptoPredictor(
   n_features=1,
@@ -59,7 +57,7 @@ model = CryptoPredictor(
   seq_len=seq_length,
   n_layers=2
 )
-model, trn, tst,preds,total_price,scaler = train_model(
+_, _, _, preds, total_price,scaler = train_model(
   model,
   num_epochs,
   seq_length,
@@ -90,8 +88,10 @@ plt.plot(predicted_cases, label='Predicted Daily Cases')
 
 
 plt.figlegend()
+
 st.pyplot(plt)
 st.write(predicted_cases)
+plt.show()
 
 
 

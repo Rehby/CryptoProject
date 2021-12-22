@@ -3,7 +3,7 @@ import torch
 
 from Predictor import CryptoPredictor
 
-from  DataProcessing import  get_data, secData
+from  DataProcessing import  get_data, secData,get_stock_data
 
 
 
@@ -19,6 +19,7 @@ def train_model(
         DAYS_TO_PREDICT=1
 
 ):
+    get_stock_data(ticker)
     daily_price, total_price = get_data(ticker)
     X_all,y_all,scaler=secData(daily_price,seq_length)
 
