@@ -11,17 +11,8 @@ import yfinance as fix
 fix.pdr_override()
 
 def get_stock_data(ticker) :
-    """
-    Gets historical stock data of given tickers between dates
-    :param ticker: company, or companies whose data is to fetched
-    :type ticker: string or list of strings
-    :param start_date: starting date for stock prices
-    :type start_date: string of date "YYYY-mm-dd"
-    :param end_date: end date for stock prices
-    :type end_date: string of date "YYYY-mm-dd"
-    :return: stock_data.csv
-    """
-    start_date = datetime.date(2000,1,1)
+
+    start_date = datetime.date(2010,1,1)
     end_date = datetime.datetime.now()
     i = 1
     try:
@@ -51,7 +42,7 @@ def get_data(ticker):
     daily_price = df["Close"]
     daily_price.index = pd.to_datetime(df["Date"])
 
-    return  daily_price, total_price
+    return  total_price, daily_price
 
 
 def create_sequences(data, seq_length):
@@ -75,3 +66,7 @@ def secData(daily_price,seq_length):
    X_all = torch.from_numpy(X_all).float()
    y_all = torch.from_numpy(y_all).float()
    return  X_all,y_all,scaler
+
+
+if __name__ =="__main__":
+    get_stock_data("ETH-USD")
