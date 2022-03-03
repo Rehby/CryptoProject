@@ -1,2 +1,1 @@
-"# CryptoProject" 
-"# CryptoProject" 
+Predict CryptoCurrency 
