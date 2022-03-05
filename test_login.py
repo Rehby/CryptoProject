@@ -1,10 +1,6 @@
 import psycopg2
 import  streamlit as st
 
-
-
-
-
 def add_userdata(username,password,email):
 
 	c.execute(f'INSERT INTO users(login,pass,email) VALUES ({username},{password},{email})')

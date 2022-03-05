@@ -2,10 +2,8 @@ import datetime
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import pandas as pd
-
 import pandas_datareader.data as pdr
 import time
-
 import torch
 import yfinance as fix
 fix.pdr_override()
@@ -67,6 +65,23 @@ def secData(daily_price,seq_length):
    y_all = torch.from_numpy(y_all).float()
    return  X_all,y_all,scaler
 
+
+def normalize_data(scaler, preds ,total_price, DAYS_TO_PREDICT):
+    predicted_cases = scaler.inverse_transform(
+        np.expand_dims(preds, axis=0)
+    ).flatten()
+
+    predicted_index = pd.date_range(
+        start=total_price.index[-1],
+        periods=DAYS_TO_PREDICT + 1,
+        closed='right'
+    )
+
+    predicted_cases = pd.Series(
+        data=predicted_cases,
+        index=predicted_index
+    )
+    return predicted_cases
 
 if __name__ =="__main__":
     get_stock_data("ETH-USD")
