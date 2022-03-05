@@ -55,6 +55,7 @@ def predict(ticker,DAYS_TO_PREDICT,seq_length, num_epochs):
 
 def userInterface():
     stocks = [row[0] for row in dataBase.get_Currency()]
+
     st.set_page_config(layout="wide")
     st.sidebar.title('Предсказание цены акций')
 
@@ -72,6 +73,7 @@ def userInterface():
 
 if __name__ == "__main__":
     userInterface()
+
 
 
 
