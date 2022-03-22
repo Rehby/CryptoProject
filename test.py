@@ -10,14 +10,13 @@ utl.inject_custom_css()
 utl.navbar_component()
 def navigation():
 	route = utl.get_current_route()
-	if route == "home":
+	if route == "home" or route is None:
 		home.load_view()
 	elif route == "help":
 		help.load_view()
-
 	elif route == "about":
 		about.load_view()
-	elif route == "admin":
+	elif route == "admin" or route == "configuration":
 		pass
 
 

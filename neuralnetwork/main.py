@@ -24,7 +24,7 @@ def charts(ticker,total_price, daily_price,predicted_cases):
     fig.update_layout(xaxis_title="Дата", yaxis_title="Стоимсоть Usd")
     st.plotly_chart(fig, use_container_width=True)
 
-def init(num_epochs = 20,seq_length = 64):
+def init(num_epochs = 50,seq_length = 64):
      RANDOM_SEED = 12
      np.random.seed(RANDOM_SEED)
      torch.manual_seed(RANDOM_SEED)
@@ -49,28 +49,3 @@ def predict(ticker,DAYS_TO_PREDICT,seq_length, num_epochs):
     print(predicted_cases)
     return total_price, daily_price,predicted_cases 
 
-
-# def userInterface():
-#     stocks = [row[0] for row in dataBase.get_Currency()]
-#
-#     # st.set_page_config(layout="wide")
-#     # st.sidebar.title('Предсказание цены акций')
-#
-#     # form = st.sidebar.form(key='crypto_select')
-#
-#     buff, col, buff2 = st.columns([1, 2, 1])
-#
-#
-#     form = col.form(key='crypto_select')
-#     ticker = form.selectbox('Выберите пару криптовалюты для предсказания', stocks)
-#     DAYS_TO_PREDICT=form.slider('Период предсказания: ', 15, 30)
-#     submit_button = form.form_submit_button(label='Рассчитать')
-#
-#     if submit_button:
-#         seq_length, num_epochs=init()
-#         total_price, daily_price,predicted_cases=predict(ticker, DAYS_TO_PREDICT, seq_length, num_epochs)
-#         Charts(ticker,total_price, daily_price,predicted_cases)
-#         col.write(predicted_cases)
-
-# if __name__ == "__main__":
-#     userInterface()

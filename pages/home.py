@@ -16,4 +16,5 @@ def load_view():
         seq_length, num_epochs = init()
         total_price, daily_price, predicted_cases = predict(ticker, DAYS_TO_PREDICT, seq_length, num_epochs)
         charts(ticker, total_price, daily_price, predicted_cases)
+        buff, col, buff2 = st.columns([1, 2, 1])
         col.write(predicted_cases)
