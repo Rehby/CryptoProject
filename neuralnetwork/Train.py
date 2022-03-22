@@ -1,9 +1,9 @@
 import numpy as np
 import torch
 
-from Predictor import CryptoPredictor
+from neuralnetwork.Predictor import CryptoPredictor
 
-from  DataProcessing import  get_data, secData
+from  neuralnetwork.DataProcessing import  get_data, secData
 
 preds = []
 
@@ -13,8 +13,8 @@ def train_model(
         seq_length=12,
         ticker="",
         DAYS_TO_PREDICT=1):
-    total_price,daily_price = get_data(ticker)
-    X_all,y_all,scaler=secData(daily_price,seq_length)
+    total_price, daily_price = get_data(ticker)
+    X_all, y_all, scaler=secData(daily_price,seq_length)
 
     loss_fn = torch.nn.MSELoss(reduction='sum')
 
@@ -41,8 +41,7 @@ def train_model(
                     new_seq = new_seq[1:]
                     test_seq = torch.as_tensor(new_seq).view(1, seq_length, 1).float()
 
-
-            if t % 5 == 0:
+            if t % 1 == 0:
                 print(f'Epoch {t} train loss: {loss.item()}')
 
         train_hist[t] = loss.item()
@@ -52,8 +51,4 @@ def train_model(
         optimiser.step()
 
     return model.eval(), train_hist, test_hist, preds,total_price, daily_price,scaler
-
-
-
-
-
+   
