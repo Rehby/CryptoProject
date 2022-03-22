@@ -1,14 +1,13 @@
-from datetime import date
 import torch
 import numpy as np
 import streamlit as st
 
-from neuralnetwork import dataBase
+
 from neuralnetwork.Predictor import CryptoPredictor
 from neuralnetwork.Train import train_model
 from neuralnetwork.DataProcessing import normalize_data
 
-def Charts(ticker,total_price, daily_price,predicted_cases):
+def charts(ticker,total_price, daily_price,predicted_cases):
     import plotly.graph_objects as go
     import plotly.express as px
 
@@ -29,7 +28,6 @@ def init(num_epochs = 20,seq_length = 64):
      RANDOM_SEED = 12
      np.random.seed(RANDOM_SEED)
      torch.manual_seed(RANDOM_SEED)
-     TODAY = date.today().strftime("%Y-%m-%d")
      return seq_length, num_epochs
 
 def predict(ticker,DAYS_TO_PREDICT,seq_length, num_epochs):

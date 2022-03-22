@@ -1,6 +1,6 @@
 from neuralnetwork import dataBase
 import streamlit as st
-from neuralnetwork.main import predict,init,Charts
+from neuralnetwork.main import predict, init, charts
 
 def load_view():
     stocks = [row[0] for row in dataBase.get_Currency()]
@@ -15,5 +15,5 @@ def load_view():
     if submit_button:
         seq_length, num_epochs = init()
         total_price, daily_price, predicted_cases = predict(ticker, DAYS_TO_PREDICT, seq_length, num_epochs)
-        Charts(ticker, total_price, daily_price, predicted_cases)
+        charts(ticker, total_price, daily_price, predicted_cases)
         col.write(predicted_cases)

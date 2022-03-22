@@ -17,7 +17,8 @@ def navigation():
 
 	elif route == "about":
 		about.load_view()
-
+	elif route == "admin":
+		pass
 
 
 if (__name__ =="__main__"):
