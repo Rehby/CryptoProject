@@ -7,5 +7,5 @@ NAVBAR_PATHS = {
 
 SETTINGS = {
 
-    'CONFIGURATION':'configuration'
+    'Настройки':'configuration'
 }

@@ -1,4 +1,3 @@
-
 import torch
 from torch import nn
 
@@ -15,7 +14,7 @@ class CryptoPredictor(nn.Module):
       input_size=n_features,
       hidden_size=n_hidden,
       num_layers=n_layers,
-      dropout=0.5
+      dropout=0.75
     )
 
     self.linear = nn.Linear(in_features=n_hidden, out_features=1)
@@ -35,6 +34,3 @@ class CryptoPredictor(nn.Module):
       lstm_out.view(self.seq_len, len(sequences), self.n_hidden)[-1]
     y_pred = self.linear(last_time_step)
     return y_pred
-
-
-

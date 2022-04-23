@@ -9,12 +9,14 @@ def load_view():
 
     form = col.form(key='crypto_select')
     ticker = form.selectbox('Выберите пару криптовалюты для предсказания', stocks)
-    DAYS_TO_PREDICT = form.slider('Период предсказания: ', 15, 30)
+    DAYS_TO_PREDICT = form.slider('Период предсказания: ', 1, 15)
     submit_button = form.form_submit_button(label='Рассчитать')
 
     if submit_button:
+
         seq_length, num_epochs = init()
         total_price, daily_price, predicted_cases = predict(ticker, DAYS_TO_PREDICT, seq_length, num_epochs)
         charts(ticker, total_price, daily_price, predicted_cases)
         buff, col, buff2 = st.columns([1, 2, 1])
         col.write(predicted_cases)
+

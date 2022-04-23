@@ -39,13 +39,21 @@ def add_userdata(username,password,email):
 def add_crypto_currency(site,values,currency):
 	conn, c = con()
 	for index in values.index:
-		print(index.strftime("%d-%m-%Y"))
-		c.execute(f'INSERT INTO Crypto_currency(site_id,upd_date,value,date,currency_id) VALUES ({1},{ datetime.date.today().strftime("%d-%m-%Y")},{float( values[index])},CAST({index.strftime("%d-%b-%Y")}),{1})')
+
+		c.execute(f'INSERT INTO Crypto_currency(site_id,upd_date,value,date,currency_id) VALUES ( %s,%s,%s,%s,%s )', (site,str(datetime.date.today().strftime("%d-%m-%Y")),float( values[index]),str(index.strftime("%d-%m-%Y")),currency)	)
+	conn.commit()
+	conn.close()
+
+def add_predict(values,currency):
+	conn, c = con()
+	for index in values.index:
+
+		c.execute(f'INSERT INTO Predict(cc_id,predict_date,date,value) VALUES ( %s,%s,%s,%s )', (currency,str(index.strftime("%d-%m-%Y")),str(datetime.date.today().strftime("%d-%m-%Y")),float( values[index]))	)
 	conn.commit()
 	conn.close()
 
 if __name__=="__main__":
-	df = pd.read_csv(f"data/{'BTC-USD'}.csv")
+	df = pd.read_csv(f"../data/{'BTC-USD'}.csv")
 	total_price = df["Close"]
 	total_price.index = pd.to_datetime(df["Date"]).dt.date
 	add_crypto_currency(1,total_price,1)

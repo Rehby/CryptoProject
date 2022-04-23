@@ -6,6 +6,7 @@ import pandas_datareader.data as pdr
 import time
 import torch
 import yfinance as fix
+
 fix.pdr_override()
 
 def get_stock_data(ticker,site="yfinance") :
@@ -29,7 +30,8 @@ def get_stock_data(ticker,site="yfinance") :
                 time.sleep(120)
                 get_stock_data(ticker, start_date, end_date)
         stock_data = all_data["Close"]
-        stock_data.to_csv(f"data/{ticker}.csv")
+
+        stock_data.to_csv(f"../data/{ticker}.csv")
     elif site =="alphavantage":
         pass
 

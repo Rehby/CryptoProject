@@ -1,6 +1,6 @@
 import  streamlit as st
 import utils as utl
-from pages import home, help,about
+from pages import home, help,about, configuration
 
 
 
@@ -17,7 +17,7 @@ def navigation():
 	elif route == "about":
 		about.load_view()
 	elif route == "admin" or route == "configuration":
-		pass
+		configuration.load_view()
 
 
 if (__name__ =="__main__"):
