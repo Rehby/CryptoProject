@@ -1,8 +1,8 @@
 import torch
 import numpy as np
 import streamlit as st
-
-from neuralnetwork.dataBase import add_predict
+import pandas as pd
+from neuralnetwork.dataBase import add_predict,check_actual
 from neuralnetwork.Predictor import CryptoPredictor
 from neuralnetwork.Train import train_model
 from neuralnetwork.DataProcessing import normalize_data
@@ -10,7 +10,7 @@ from neuralnetwork.DataProcessing import normalize_data
 import plotly.graph_objects as go
 import plotly.express as px
 
-def charts(ticker,total_price, daily_price,predicted_cases):
+def charts(ticker,total_price, daily_price,predicted_cases,train,num_epochs):
 
 
     fig1 = px.bar(title=f"Стоимость {ticker}")
@@ -27,8 +27,17 @@ def charts(ticker,total_price, daily_price,predicted_cases):
     st.plotly_chart(fig, use_container_width=True)
 
 
+    df = pd.Series(train.tolist())
+    ind= range(1,num_epochs+1)
+    df.index=ind
+    fig = px.bar(title=f"Обучение нейронной сети")
+    fig.add_trace(go.Scatter(x=df.index, y=df))
 
-def init(num_epochs = 200   ,seq_length = 8):
+    fig.update_layout(xaxis_title="Эпоха", yaxis_title="Ошибка")
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def init(num_epochs = 200,seq_length = 6):
      RANDOM_SEED = 12
      np.random.seed(RANDOM_SEED)
      torch.manual_seed(RANDOM_SEED)
@@ -39,11 +48,11 @@ def init(num_epochs = 200   ,seq_length = 8):
 def predict(ticker,DAYS_TO_PREDICT,seq_length, num_epochs):
     model = CryptoPredictor(
         n_features=1,
-        n_hidden=40,
+        n_hidden=10,
         seq_len=seq_length,
         n_layers=2)
 
-    model, _, test, preds, total_price, daily_price, scaler = train_model(
+    model, train, test, preds, total_price, daily_price, scaler = train_model(
         model,
         num_epochs,
         seq_length,
@@ -52,12 +61,14 @@ def predict(ticker,DAYS_TO_PREDICT,seq_length, num_epochs):
 
 
 
+
     predicted_cases = normalize_data(scaler, preds, total_price, DAYS_TO_PREDICT)
     add_predict(predicted_cases, 1)
 
-    return total_price, daily_price, predicted_cases
+    return total_price, daily_price, predicted_cases,train
 
 
 if __name__=="__main__":
-    init()
-    predict("BTC-USD",15,4,2)
+    # init()
+    # predict("BTC-USD",15,4,2)
+    print(check_actual("BTC-USD",12))

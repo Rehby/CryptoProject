@@ -43,7 +43,7 @@ def get_data(ticker):
     total_price.index = pd.to_datetime(df["Date"])
 
     dt=datetime.datetime.now()
-    dt = dt.replace(year=dt.year - 1)
+    dt = dt.replace(year=dt.year - 2)
     df= df[(pd.to_datetime(df["Date"]) > dt.strftime("%m-%d-%Y"))]
 
     daily_price = df["Close"]

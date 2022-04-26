@@ -50,6 +50,7 @@ def train_model(
                 my_bar.progress(t/(num_epochs-1))
 
 
+
         train_hist[t] = loss.item()
 
         optimiser.zero_grad()
