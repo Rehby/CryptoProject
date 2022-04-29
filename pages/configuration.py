@@ -10,6 +10,8 @@ def short_name_ok(text):
     match = re.match("^[a-zA-Z0-9]+[-]+[a-zA-Z]+$", text)
     return bool(match)
 
+
+
 def load_view():
     stocks = [row[0] for row in dataBase.get_Currency()]
 
@@ -24,6 +26,8 @@ def load_view():
         try:
 
             if submit_button and name_ok(name) and short_name_ok(short_name):
+                print("here")
+                dataBase.add_new_currency(name,short_name)
                 st.warning("Данные добавлены")
             elif submit_button:
                 st.warning("Введены некорректные данные")
@@ -31,18 +35,26 @@ def load_view():
             st.warning("Введены некорректные данные")
 
 
+
     with col.form("my_form"):
         cc_name = st.selectbox("Криптовалюта для редактирования", stocks)
         neurons = st.text_input("Введите число нейронов в слое(10-100)")
         layer_count = st.text_input("Введите число слоев(1-5)")
+        epoch = st.text_input("Введите число эпох'(50-5000)")
         submitted = st.form_submit_button("Изменить")
         try:
             if submitted and float(neurons)>=100 and float(neurons)<=10 and float(layer_count)<=1 and float(layer_count)>=5:
+
                 st.warning("Введены некорректные данные")
             elif submitted:
+
+                dataBase.edit_nn_params(8, epoch, neurons, layer_count, cc_name)
                 st.warning("Данные изменены")
         except:
             st.warning("Введены некорректные данные")
 
 
 
+
+if __name__=="__main__":
+    pass

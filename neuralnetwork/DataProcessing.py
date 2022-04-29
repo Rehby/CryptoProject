@@ -31,17 +31,32 @@ def get_stock_data(ticker,site="yfinance") :
                 get_stock_data(ticker, start_date, end_date)
         stock_data = all_data["Close"]
 
-        stock_data.to_csv(f"../data/{ticker}.csv")
+        stock_data.to_csv(f"data/{ticker}.csv")
     elif site =="alphavantage":
         pass
 
 
 def get_data(ticker):
-    df = pd.read_csv(f"data/{ticker}.csv")
+
+    try:
+        df = pd.read_csv(f"data/{ticker}.csv")
+    except:
+        df = pd.read_csv(f"../data/{ticker}.csv")
+    data = pd.to_datetime(df["Date"])
+    print(data[-1:])
+    if data[data.count()-1] < datetime.date.today():
+        print("Получаю данные")
+        get_stock_data(ticker)
+
+        try:
+            df = pd.read_csv(f"data/{ticker}.csv")
+        except:
+            df = pd.read_csv(f"../data/{ticker}.csv")
+        total_price = df["Close"]
+        total_price.index = pd.to_datetime(df["Date"])
 
     total_price = df["Close"]
     total_price.index = pd.to_datetime(df["Date"])
-
     dt=datetime.datetime.now()
     dt = dt.replace(year=dt.year - 2)
     df= df[(pd.to_datetime(df["Date"]) > dt.strftime("%m-%d-%Y"))]
@@ -86,6 +101,7 @@ def normalize_data(scaler,
                     axis=0)
                     ).flatten()
 
+
     predicted_index = pd.date_range(
         start=total_price.index[-1],
         periods=DAYS_TO_PREDICT + 1,
@@ -96,7 +112,31 @@ def normalize_data(scaler,
         data=predicted_cases,
         index=predicted_index
         )
+
     return predicted_cases
+
+def normalize_db_data(data,total_price,DAYS_TO_PREDICT):
+    preds = pd.DataFrame(data)
+    predicted_cases = np.asarray(preds[4])
+
+    predicted_index = pd.date_range(
+        start=total_price.index[-1],
+        periods=DAYS_TO_PREDICT + 1,
+        closed='right'
+    )
+
+    predicted_cases = pd.Series(
+        data=predicted_cases,
+        index=predicted_index
+
+    )
+    return predicted_cases
+
+
+
+
+
+
 
 
 

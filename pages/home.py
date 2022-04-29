@@ -14,9 +14,10 @@ def load_view():
 
     if submit_button:
 
-        seq_length, num_epochs = init()
-        total_price, daily_price, predicted_cases,train = predict(ticker, DAYS_TO_PREDICT, seq_length, num_epochs)
-        charts(ticker, total_price, daily_price, predicted_cases,train,num_epochs)
+        init()
+        total_price, daily_price, predicted_cases, train, epochs = predict(ticker, DAYS_TO_PREDICT)
+        charts(ticker, total_price, daily_price, predicted_cases, train, epochs)
+
         buff, col, buff2 = st.columns([1, 2, 1])
         col.write(predicted_cases)
 
